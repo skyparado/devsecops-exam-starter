@@ -77,37 +77,36 @@ The workflow triggers on pushes and pull requests targeting `main`, plus manual 
 
 ## Security demonstration
 
-The application manifest has been remediated. Its full audit should now pass.
-The separate private package in `security-demo/` deliberately pins the unused
-`lodash@4.17.20` dependency. It is excluded from the Docker build context and is
-never imported, installed by the root package, or deployed.
+The normal CI workflow demonstrated the complete feedback loop:
 
-The main CI workflow audits all application dependencies with
-`npm audit --audit-level=high`. A separate, manually triggered **Security
-demonstration (expected failure)** workflow audits the fixture and must fail.
-This preserves a repeatable negative example without breaking required main CI
-checks. npm audit uses the npm advisory database and needs registry access;
-network errors also fail the job. See the
-[npm audit documentation](https://docs.npmjs.com/cli/v11/commands/npm-audit).
+| Revision | Change | Evidence |
+| --- | --- | --- |
+| Commit A: `f06a0bc` | Added unused vulnerable `lodash@4.17.20` to the app's dev dependencies | [CI failed](https://github.com/skyparado/devsecops-exam-starter/actions/runs/34864508939) |
+| Commit B: `79e326c` | Removed lodash and fixed additional image findings | [Same CI passed](https://github.com/skyparado/devsecops-exam-starter/actions/runs/34864755525) |
 
-Run both checks locally:
+The failed dependency report identified lodash; the image scan independently
+identified PCRE2 and bundled package-manager dependencies. The fix upgraded
+PCRE2 and removed npm/Yarn from the runtime image. Tests, non-root/HTTP checks,
+Compose, dependency scanning, image scanning, and secret scanning all passed
+afterward. Detailed reports are linked in [validation evidence](docs/validation.md).
+
+npm audit was chosen because it checks the existing dependency graph without
+another service account. It fails on high/critical findings, including development
+dependencies. Trivy adds image and secret coverage. See
+[scanner choices and limitations](docs/security-design.md).
+
+The separate private package in `security-demo/` preserves the unused vulnerable
+fixture for repeatability. It is excluded from the build context and never
+installed by the application. Reproduce the difference without installing it:
 
 ```sh
 npm audit --audit-level=high
 npm --prefix security-demo audit --audit-level=high
 ```
 
-The first should exit 0; the second should exit 1 and identify lodash.
-The fixture has its own lockfile, so it can be audited without installing its
-vulnerable dependency. See `docs/audit-demo.txt` for the original local finding,
-`docs/audit-demo-isolated.txt` for the isolated fixture, and
-`docs/audit-clean.txt` for the remediated application's report.
-
-After publishing the files, open Actions, select **Security demonstration
-(expected failure)**, and choose **Run workflow**. Capture the failed audit step
-and its run URL. Then capture a passing **CI** run. Do not require the deliberately
-failing demonstration workflow in branch protection. No hosted run is claimed
-by these local reports.
+The main audit should exit 0; the fixture audit should exit 1 and identify lodash.
+A separate **Security demonstration (expected failure)** manual workflow audits
+the fixture and intentionally fails. It is not a required branch-protection check.
 
 ## Challenge encountered
 
@@ -120,18 +119,19 @@ chain and rerunning both tests and the audit.
 
 A second challenge was reproducibility: passing tests on the installed Node 26
 did not verify the CI runtime. The same test and a live HTTP check were rerun
-under Node 24.21.0. Docker is unavailable locally, so image and Compose behavior
-must be verified on the hosted runner.
+under Node 24.21.0. Docker is unavailable locally, so the hosted runner was used to verify the image,
+non-root execution, HTTP health, and Compose services successfully.
 
 ## Repository and hosted evidence
 
 The submission fork is
 [skyparado/devsecops-exam-starter](https://github.com/skyparado/devsecops-exam-starter),
 forked from the official LSCS starter. This local workspace retains its original
-remote. Hosted run links and branch protection status will be recorded in
-[the validation record](docs/validation.md) after execution.
+remote. Hosted run links, downloaded reports, and verified branch protection are recorded
+in [the validation record](docs/validation.md).
 
-Required checks are **Test and build**, **Compose smoke test**,
+Branch protection is enabled, including administrator enforcement. Required
+checks are **Test and build**, **Compose smoke test**,
 **Dependency security**, and **Secret scan**. The separate manual demonstration
 workflow is intentionally failing and must not be a required check.
 

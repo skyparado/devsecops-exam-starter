@@ -1,0 +1,175 @@
+{
+  "run_url": "https://github.com/skyparado/devsecops-exam-starter/actions/runs/34864755525",
+  "commit": "79e326c39e4fb45e36a6297291f473ccab9c87a9",
+  "conclusion": "success",
+  "jobs": [
+    {
+      "name": "Compose smoke test",
+      "conclusion": "success",
+      "url": "https://github.com/skyparado/devsecops-exam-starter/actions/runs/34864755525/job/104045663807",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "conclusion": "success"
+        },
+        {
+          "name": "Validate and start services",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify HTTP response and Redis",
+          "conclusion": "success"
+        },
+        {
+          "name": "Logs and cleanup",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "Secret scan",
+      "conclusion": "success",
+      "url": "https://github.com/skyparado/devsecops-exam-starter/actions/runs/34864755525/job/104045664063",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "conclusion": "success"
+        },
+        {
+          "name": "Scan repository for secrets",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Scan repository for secrets",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "Test and build",
+      "conclusion": "success",
+      "url": "https://github.com/skyparado/devsecops-exam-starter/actions/runs/34864755525/job/104045664212",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "conclusion": "success"
+        },
+        {
+          "name": "Install locked dependencies",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run tests",
+          "conclusion": "success"
+        },
+        {
+          "name": "Build image",
+          "conclusion": "success"
+        },
+        {
+          "name": "Verify non-root user and container health",
+          "conclusion": "success"
+        },
+        {
+          "name": "Scan runtime image",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve image scan report",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Scan runtime image",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    },
+    {
+      "name": "Dependency security",
+      "conclusion": "success",
+      "url": "https://github.com/skyparado/devsecops-exam-starter/actions/runs/34864755525/job/104045664458",
+      "steps": [
+        {
+          "name": "Set up job",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "conclusion": "success"
+        },
+        {
+          "name": "Run npm ci --ignore-scripts",
+          "conclusion": "success"
+        },
+        {
+          "name": "Audit application dependencies",
+          "conclusion": "success"
+        },
+        {
+          "name": "Preserve dependency scan report",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+          "conclusion": "success"
+        },
+        {
+          "name": "Post Run actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "conclusion": "success"
+        },
+        {
+          "name": "Complete job",
+          "conclusion": "success"
+        }
+      ]
+    }
+  ]
+}
