@@ -1,4 +1,4 @@
-# Macky Merch API
+# Secure Delivery Pipeline (The Macky Merch API)
 
 ## What this project does
 
@@ -72,7 +72,6 @@ docker exec macky-merch id
 
 ## How the automatic checks work
 
-- CI means Continuous Integration. It means checking code changes automatically.
 - `.github/workflows/ci.yml` runs when code is pushed to `main` or a pull request targets `main`.
 - It can also be started manually.
 - It runs four groups of checks:
@@ -108,6 +107,7 @@ docker exec macky-merch id
 ## Proof that the security check caught a problem
 
 - An earlier version added unused `lodash@4.17.20` to the app's development packages on purpose.
+- - The vulnerable `lodash@4.17.20` dependency was deliberately added to the main application first, detected by the normal CI pipeline, and then removed after the successful demonstration; `security-test/` preserves a safe reproducible copy of that test.
 - The package scanner detected a high severity problem and failed CI.
 - The image scanner also found problems in PCRE2 and packages bundled with npm and Yarn.
 - A later version removed lodash, updated PCRE2, and removed npm and Yarn from the final image.
@@ -168,18 +168,11 @@ docker compose down
 - Compose also limits the API container's permissions and makes its normal files read-only.
 - **Multi-stage Docker build:** keeps development packages and tools out of the final image.
 - **Branch protection:** can block merging when required checks fail.
-  - It is a GitHub setting, not a project file.
-  - Protection was relaxed to reset the branch. Restore it after pushing the final work.
+  - It is configured in GitHub repository settings, not stored as a project file.
   - Require pull requests and these checks: **Test and build**, **Compose smoke test**, **Dependency security**, and **Secret scan**.
   - Require checks to be up to date and apply the rule to administrators.
   - Disable force pushes and branch deletion.
 
-## Before submitting
-
-- The earlier successful run recorded passing tests, Docker build, container checks, Compose checks, and security scans.
-- Commit and push the final files.
-- Open the repository's **Actions** tab and check the new **CI** run.
-- Confirm that all four groups of checks pass for the new commit.
 - Check that the saved report links and earlier run links are accessible.
 - Restore branch protection.
 - Submit the fork URL through the exam application form.
